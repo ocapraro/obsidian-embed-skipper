@@ -1,6 +1,8 @@
-import {MarkdownView, Plugin, View} from 'obsidian';
+import { ContentType, contentTypePatterns } from 'ContentType';
+import {MarkdownView, Plugin} from 'obsidian';
 
 const MAX_LOAD_CHECKS = 100;
+
 
 /**
  * The main plugin
@@ -31,19 +33,32 @@ export default class EmbedSkipper extends Plugin {
           {ch:view.editor.getLine(splitFile.length-1).length-1, line:splitFile.length}
         );
         if(editorFile !== rawFile)
-          continue
-        splitFile.forEach(line => {
-          
-        });
+          continue;
+        console.log(this.getContentType(splitFile[0]+""));
+        // splitFile.forEach(line => {
+        //   this.getContentType(line);
+        // });
+        break;
       }
-    }))
+    }));
   }
 
   async delay(ms: number) {
 		return new Promise(resolve => setTimeout(resolve, ms));
 	}
 
-
+  getContentType(line:string) {
+    for (let i = 0; i < Object.values(ContentType).length; i++) {
+      const pattern = contentTypePatterns[i];
+      if(!pattern)
+        continue;
+      const match = line.match(pattern);
+      if (!match)
+        continue;
+      return ContentType[i];
+    }
+    return ContentType.Body;
+  }
 
   
 }
