@@ -44,10 +44,17 @@ export default class EmbedSkipper extends Plugin {
         if(editorFile !== rawFile)
           continue;
 
+        console.log(rawFile);
         // Loop through the parsers and check to see if the content type matches the doc
         // and if it should be skipped. If so move the cursor to the end of the line after
         let searchingText = rawFile;
         let line = 0;
+        // Handle properties
+        if(splitFile[0]==="---"){
+          const pattern = /(---[\S\s]*---\n)/m;
+          line += (searchingText.match(pattern)?.[0].split("\n").length||1)-1;
+          searchingText = searchingText.replace(pattern,"")
+        }
         for(let i = 0; i < PARSERS.length; i++){
           const p = PARSERS[i];
           if(!p)
