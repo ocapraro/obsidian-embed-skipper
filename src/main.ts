@@ -2,10 +2,11 @@ import { ContentType } from 'ContentType';
 import { MarkdownView, Plugin } from 'obsidian';
 import HtmlParser from 'HtmlParser';
 import { Parser } from 'Parser';
+import { CodeBlockParser } from 'CodeBlockParser';
 
 const MAX_LOAD_CHECKS = 100;
 const SKIPS = [ContentType.Html, ContentType.CodeBlock];
-const PARSERS:Parser[] = [new HtmlParser()]
+const PARSERS:Parser[] = [new HtmlParser(), new CodeBlockParser()]
 
 /**
  * The main plugin
@@ -40,18 +41,24 @@ export default class EmbedSkipper extends Plugin {
 
         // Loop through the parsers and check to see if the content type matches the doc
         // and if it should be skipped. If so move the cursor to the end of the line after
-        let foundContentType = false;
-        PARSERS.forEach(p=>{
-          if(foundContentType)
-            return;
-          const i = p.parseNote(rawFile);
-          if (!i)
-            return;
-          foundContentType = true;
+        let searchingText = rawFile;
+        let line = 0;
+        for(let i = 0; i < PARSERS.length; i++){
+          const p = PARSERS[i];
+          if(!p)
+            continue;
+          const j = p.parseNote(searchingText);
+          if (!j)
+            continue;
           if(!SKIPS.includes(p.getContentType()))
-            return;
-          view?.editor.setCursor({ch:(splitFile[i]?.length||0),line:i})
-        });
+            break;
+          line += j;
+          
+          i=-1;
+          searchingText = searchingText.split("\n").slice(j).join("\n");
+        }
+        if(line)
+          view.editor.setCursor({ch:(splitFile[line]?.length||0),line:line});
         
         break;
       }
