@@ -21,7 +21,7 @@ export class EmbedSkipperSettingTab extends PluginSettingTab {
 
     containerEl.empty();
     new Setting(containerEl)
-    .setName("General")
+    .setName("Skip embeds")
     .setHeading()
 
     new Setting(containerEl)
