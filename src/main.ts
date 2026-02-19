@@ -4,6 +4,7 @@ import HtmlParser from 'HtmlParser';
 import { Parser } from 'Parser';
 import { CodeBlockParser } from 'CodeBlockParser';
 import { HeaderParser } from 'HeaderParser';
+import { DEFAULT_SETTINGS, EmbedSkipperSettings, EmbedSkipperSettingTab } from 'settings';
 
 const MAX_LOAD_CHECKS = 100;
 const SKIPS = [ContentType.Html, ContentType.CodeBlock, ContentType.Header];
@@ -13,8 +14,11 @@ const PARSERS:Parser[] = [new HtmlParser(), new CodeBlockParser(), new HeaderPar
  * The main plugin
  */
 export default class EmbedSkipper extends Plugin {
+  settings:EmbedSkipperSettings;
 
 	async onload(): Promise<void> {
+		await this.loadSettings();
+    
     // When a file is opened
     this.registerEvent(this.app.workspace.on("file-open",async (file)=>{
       
@@ -64,10 +68,20 @@ export default class EmbedSkipper extends Plugin {
         break;
       }
     }));
+
+    this.addSettingTab(new EmbedSkipperSettingTab(this.app, this));
   }
 
   async delay(ms: number) {
 		return new Promise(resolve => setTimeout(resolve, ms));
+	}
+
+  async loadSettings() {
+		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData() as Partial<EmbedSkipperSettings>);
+	}
+
+  async saveSettings() {
+		await this.saveData(this.settings);
 	}
 
   
