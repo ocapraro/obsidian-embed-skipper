@@ -3,10 +3,11 @@ import { MarkdownView, Plugin } from 'obsidian';
 import HtmlParser from 'HtmlParser';
 import { Parser } from 'Parser';
 import { CodeBlockParser } from 'CodeBlockParser';
+import { HeaderParser } from 'HeaderParser';
 
 const MAX_LOAD_CHECKS = 100;
-const SKIPS = [ContentType.Html, ContentType.CodeBlock];
-const PARSERS:Parser[] = [new HtmlParser(), new CodeBlockParser()]
+const SKIPS = [ContentType.Html, ContentType.CodeBlock, ContentType.Header];
+const PARSERS:Parser[] = [new HtmlParser(), new CodeBlockParser(), new HeaderParser()];
 
 /**
  * The main plugin
