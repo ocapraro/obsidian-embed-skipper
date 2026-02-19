@@ -20,9 +20,12 @@ export class EmbedSkipperSettingTab extends PluginSettingTab {
     const {containerEl} = this;
 
     containerEl.empty();
-		containerEl.createEl('h2', {text: 'General'});
     new Setting(containerEl)
-    .setName("Skip Code Blocks")
+    .setName("General")
+    .setHeading()
+
+    new Setting(containerEl)
+    .setName("Skip code blocks")
     .setDesc("Skip past code blocks at the top of the file.")
     .addToggle(toggle => toggle
       .setValue(this.plugin.settings.codeBlock)
@@ -32,7 +35,7 @@ export class EmbedSkipperSettingTab extends PluginSettingTab {
       })
     );
     new Setting(containerEl)
-    .setName("Skip HTML Blocks")
+    .setName("Skip html blocks")
     .setDesc("Skip past html blocks at the top of the file.")
     .addToggle(toggle => toggle
       .setValue(this.plugin.settings.html)
@@ -42,7 +45,7 @@ export class EmbedSkipperSettingTab extends PluginSettingTab {
       })
     );
     new Setting(containerEl)
-    .setName("Skip Headers")
+    .setName("Skip headers")
     .setDesc("Skip past the headers at the top of the file.")
     .addToggle(toggle => toggle
       .setValue(this.plugin.settings.header)
