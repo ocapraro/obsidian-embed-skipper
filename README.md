@@ -1,6 +1,6 @@
 # Embed Skipper
 ![Embed Skipper](./public/embed-skipper-titlecard.png)
-Embed Skipper skips your cursor past any embedded content such as html elements or code blocks when openening a note.
+I like to start a lot of my notes with a fancy title or header, usually from an image or a div so I can style them to my liking, my issue is that when I open those notes, my cursor is on the first line by default which turns that nice header into a bunch of ugly code. Embed Skipper skips your cursor past any embedded content such as html elements or code blocks when openening a note so you don't have to worry about that.
 
 ## Settings
 ![Settings](./public/embed-skipper-settings.png)
