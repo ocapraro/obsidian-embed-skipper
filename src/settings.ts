@@ -35,8 +35,8 @@ export class EmbedSkipperSettingTab extends PluginSettingTab {
       })
     );
     new Setting(containerEl)
-    .setName("Skip html blocks")
-    .setDesc("Skip past html blocks at the top of the file.")
+    .setName("Skip HTML blocks")
+    .setDesc("Skip past HTML blocks at the top of the file.")
     .addToggle(toggle => toggle
       .setValue(this.plugin.settings.html)
       .onChange(async (value)=> {
