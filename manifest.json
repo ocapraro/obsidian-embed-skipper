@@ -2,7 +2,7 @@
 	"id": "embed-skipper",
 	"name": "Embed Skipper",
 	"version": "1.0.0",
-	"minAppVersion": "0.15.0",
+	"minAppVersion": "1.11.0",
 	"description": "Skips cursor past any embeded content at the top of your notes.",
 	"author": "Oscar Capraro",	
   "authorUrl": "https://github.com/ocapraro",
