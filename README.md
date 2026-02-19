@@ -3,7 +3,6 @@
 Embed Skipper skips your cursor past any embedded content such as html elements or code blocks when openening a note.
 
 ## TODO
-- [ ] Get Skipping working
 - [ ] Add settings
 
 ## Support
