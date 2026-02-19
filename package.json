@@ -27,7 +27,7 @@
 	"dependencies": {
 		"obsidian": "1.12.2",
     "@codemirror/state": "6.5.0",
-    "@codemirror/view": "6.39.14",
+    "@codemirror/view": "6.38.6",
 		"@humanwhocodes/momoa": "^3.3.10",
 		"@marijn/find-cluster-break": "^1.0.2",
 		"crelt": "^1.0.6",
