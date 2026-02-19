@@ -4,6 +4,10 @@ import * as htmlparser2 from "htmlparser2";
 
 export default class HtmlParser extends Parser {
   parseNote(rawNote: string): number | null {
+    // Exit if note isn't starting with html
+    if (rawNote[0] !== "<")
+      return null;
+    
     let tagCount = 0;
     const tags:string[] = [];
     let found = false;
