@@ -20,7 +20,7 @@ export class EmbedSkipperSettingTab extends PluginSettingTab {
     const {containerEl} = this;
 
     containerEl.empty();
-		containerEl.createEl('h1', {text: 'Embed Skipper Settings'});
+		containerEl.createEl('h2', {text: 'General'});
     new Setting(containerEl)
     .setName("Skip Code Blocks")
     .setDesc("Skip past code blocks at the top of the file.")
