@@ -1,5 +1,5 @@
 import { ContentType } from "ContentType";
-import { Parser } from "Parser";
+import { Parser } from "parser/Parser";
 
 export class HeaderParser extends Parser {
   parseNote(rawNote: string): number | null {

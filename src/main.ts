@@ -1,9 +1,9 @@
 import { ContentType } from 'ContentType';
 import { MarkdownView, Plugin } from 'obsidian';
-import HtmlParser from 'HtmlParser';
-import { Parser } from 'Parser';
-import { CodeBlockParser } from 'CodeBlockParser';
-import { HeaderParser } from 'HeaderParser';
+import HtmlParser from 'parser/HtmlParser';
+import { Parser } from 'parser/Parser';
+import { CodeBlockParser } from 'parser/CodeBlockParser';
+import { HeaderParser } from 'parser/HeaderParser';
 import { DEFAULT_SETTINGS, EmbedSkipperSettings, EmbedSkipperSettingTab } from 'settings';
 
 const MAX_LOAD_CHECKS = 100;

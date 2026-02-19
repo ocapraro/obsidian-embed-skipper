@@ -1,5 +1,5 @@
 import { ContentType } from "ContentType";
-import { Parser } from "Parser";
+import { Parser } from "parser/Parser";
 import * as htmlparser2 from "htmlparser2";
 
 export default class HtmlParser extends Parser {
