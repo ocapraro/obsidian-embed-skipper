@@ -7,7 +7,6 @@ import { HeaderParser } from 'HeaderParser';
 import { DEFAULT_SETTINGS, EmbedSkipperSettings, EmbedSkipperSettingTab } from 'settings';
 
 const MAX_LOAD_CHECKS = 100;
-const SKIPS = [ContentType.Html, ContentType.CodeBlock, ContentType.Header];
 const PARSERS:Parser[] = [new HtmlParser(), new CodeBlockParser(), new HeaderParser()];
 
 /**
@@ -15,6 +14,7 @@ const PARSERS:Parser[] = [new HtmlParser(), new CodeBlockParser(), new HeaderPar
  */
 export default class EmbedSkipper extends Plugin {
   settings:EmbedSkipperSettings;
+  skippedEmbeds:ContentType[] = [];
 
 	async onload(): Promise<void> {
 		await this.loadSettings();
@@ -55,7 +55,7 @@ export default class EmbedSkipper extends Plugin {
           const j = p.parseNote(searchingText);
           if (!j)
             continue;
-          if(!SKIPS.includes(p.getContentType()))
+          if(!this.skippedEmbeds.includes(p.getContentType()))
             break;
           line += j;
           
@@ -78,10 +78,23 @@ export default class EmbedSkipper extends Plugin {
 
   async loadSettings() {
 		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData() as Partial<EmbedSkipperSettings>);
+    if(this.settings.codeBlock)
+      this.skippedEmbeds.push(ContentType.CodeBlock);
+    if(this.settings.html)
+      this.skippedEmbeds.push(ContentType.Html);
+    if(this.settings.header)
+      this.skippedEmbeds.push(ContentType.Header);
 	}
 
   async saveSettings() {
 		await this.saveData(this.settings);
+    this.skippedEmbeds = [];
+    if(this.settings.codeBlock)
+      this.skippedEmbeds.push(ContentType.CodeBlock);
+    if(this.settings.html)
+      this.skippedEmbeds.push(ContentType.Html);
+    if(this.settings.header)
+      this.skippedEmbeds.push(ContentType.Header);
 	}
 
   
