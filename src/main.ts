@@ -1,5 +1,5 @@
 import { ContentType } from 'ContentType';
-import {MarkdownView, Plugin} from 'obsidian';
+import { MarkdownView, Plugin } from 'obsidian';
 import HtmlParser from 'HtmlParser';
 import { Parser } from 'Parser';
 
