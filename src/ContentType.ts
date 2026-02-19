@@ -1,17 +1,6 @@
 export enum ContentType {
-  FullHtml,
-  SingleHtml,
-  PartialHtml,
+  Html,
   CodeBlock,
   Header,
   Body
 }
-
-export const contentTypePatterns:{[key:number]:RegExp} = {
-  [ContentType.FullHtml]: /^<.*>.*<\/.*>$/,
-  [ContentType.SingleHtml]: /^<img.*>.*/,
-  [ContentType.PartialHtml]: /^<.*>.*/,
-  [ContentType.CodeBlock]: /^```/,
-  [ContentType.Header]: /^#+/,
-  [ContentType.Body]: /.?/,
-};

@@ -1,8 +1,11 @@
-import { ContentType, contentTypePatterns } from 'ContentType';
+import { ContentType } from 'ContentType';
 import {MarkdownView, Plugin} from 'obsidian';
+import HtmlParser from 'HtmlParser';
+import { Parser } from 'Parser';
 
 const MAX_LOAD_CHECKS = 100;
-
+const SKIPS = [ContentType.Html, ContentType.CodeBlock];
+const PARSERS:Parser[] = [new HtmlParser()]
 
 /**
  * The main plugin
@@ -16,7 +19,7 @@ export default class EmbedSkipper extends Plugin {
       // Exit out if not opening a note
       if((file?.extension != "md"))
         return;
-      let view = null;
+      let view:MarkdownView|null = null;
       const rawFile = await this.app.vault.cachedRead(file)
       const splitFile = rawFile.split("\n");
 
@@ -34,10 +37,22 @@ export default class EmbedSkipper extends Plugin {
         );
         if(editorFile !== rawFile)
           continue;
-        console.log(this.getContentType(splitFile[0]+""));
-        // splitFile.forEach(line => {
-        //   this.getContentType(line);
-        // });
+
+        // Loop through the parsers and check to see if the content type matches the doc
+        // and if it should be skipped. If so move the cursor to the end of the line after
+        let foundContentType = false;
+        PARSERS.forEach(p=>{
+          if(foundContentType)
+            return;
+          const i = p.parseNote(rawFile);
+          if (!i)
+            return;
+          foundContentType = true;
+          if(!SKIPS.includes(p.getContentType()))
+            return;
+          view?.editor.setCursor({ch:(splitFile[i]?.length||0),line:i})
+        });
+        
         break;
       }
     }));
@@ -46,19 +61,6 @@ export default class EmbedSkipper extends Plugin {
   async delay(ms: number) {
 		return new Promise(resolve => setTimeout(resolve, ms));
 	}
-
-  getContentType(line:string) {
-    for (let i = 0; i < Object.values(ContentType).length; i++) {
-      const pattern = contentTypePatterns[i];
-      if(!pattern)
-        continue;
-      const match = line.match(pattern);
-      if (!match)
-        continue;
-      return ContentType[i];
-    }
-    return ContentType.Body;
-  }
 
   
 }
