@@ -37,13 +37,13 @@ export default class EmbedSkipper extends Plugin {
         // Check to see if editor has loaded
         if(view?.editor.lineCount() !== splitFile.length)
           continue;
-        const editorFile = view.editor.getRange(
-          {ch:0,line:0},
-          {ch:view.editor.getLine(splitFile.length-1).length-1, line:splitFile.length}
-        );
+        const editorFile = view.editor.getValue();
         if(editorFile !== rawFile)
           continue;
 
+        // Exit if the user clicks on a specific line
+        if(view.editor.getCursor().line>0)
+          return;
         // Loop through the parsers and check to see if the content type matches the doc
         // and if it should be skipped. If so move the cursor to the end of the line after
         let searchingText = rawFile;
