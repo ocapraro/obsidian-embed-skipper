@@ -42,7 +42,15 @@ export default class EmbedSkipper extends Plugin {
           continue;
 
         // Exit if the user clicks on a specific line
-        if(view.editor.getCursor().line>0)
+        const propertiesInDocument = (this.app.vault as any).getConfig("propertiesInDocument");
+        if(
+          // If the user is keeping the properties visible in the document and the cursor is past the start
+          ((propertiesInDocument == "source") && (view.editor.getCursor().line>0)) ||
+          // Or if the user is hiding the properties and the cursor is past the end of the properties
+          (view.editor.getCursor().line > (rawFile.match(/^---\n([\w\W]*)---\n/m)||[""])[0].split("\n").length) ||
+          // Or if the char location is past 0
+          (view.editor.getCursor().ch > 0)
+        )
           return;
         // Loop through the parsers and check to see if the content type matches the doc
         // and if it should be skipped. If so move the cursor to the end of the line after
